@@ -1,5 +1,6 @@
 package com.example.randomuser.ui
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,7 +26,7 @@ class UserViewModel @Inject constructor(
     private val _state = MutableStateFlow(UserState())
     val state: StateFlow<UserState> = _state
     private val intentChannel = Channel<UserIntent>(Channel.UNLIMITED)
-
+    private var currentPage = 1
     init {
         processIntents()
         sendIntent(UserIntent.LoadUsers)
@@ -35,8 +36,8 @@ class UserViewModel @Inject constructor(
 
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true, error = null) }
-            getUsers()
-                .onEach { users -> _state.update { it.copy(users = users, isLoading = false) } }
+            getUsers(currentPage)
+                .onEach { users -> _state.update { it.copy(users = it.users + users, isLoading = false) } }
                 .catch { e -> _state.update { it.copy(error = e.message, isLoading = false) } }
                 .collect()
         }
