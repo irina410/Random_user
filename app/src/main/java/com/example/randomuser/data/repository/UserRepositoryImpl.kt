@@ -8,7 +8,8 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class UserRepositoryImpl( val api: RandomUserApi) : UserRepository {
-    override fun getRandomUsers(): Flow<List<User>> {
-        return flow { emit(api.getUsers().result.map { it.toDomain() }) }
+    override fun getRandomUsers(page: Int): Flow<List<User>> = flow {
+        val response = api.getUsers(page)
+        emit(response.results.map { it.toDomain() })
     }
 }

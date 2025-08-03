@@ -1,3 +1,5 @@
+@file:Suppress("DEPRECATION")
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -65,5 +67,8 @@ dependencies {
     implementation(libs.androidx.hilt.compose)
     implementation(libs.google.hilt.android)
     kapt(libs.google.hilt.compiler)
+
+    implementation(libs.coil.compose)
+
 
 }
