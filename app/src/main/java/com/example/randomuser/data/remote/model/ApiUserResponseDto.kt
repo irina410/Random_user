@@ -1,3 +1,9 @@
 package com.example.randomuser.data.remote.model
 
-data class ApiUserResponseDto(val result: List<ApiUserDto>)
+
+import com.google.gson.annotations.SerializedName
+
+data class ApiUserResponseDto(
+    @SerializedName("results")
+    val results: List<ApiUserDto>
+)
